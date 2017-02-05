@@ -1,4 +1,4 @@
-package accounting;
+package models;
 
 public class VolEntry {
 	private String volNumber;
