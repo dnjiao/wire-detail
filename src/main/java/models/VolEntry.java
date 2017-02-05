@@ -6,7 +6,7 @@ public class VolEntry {
 	private String county;
 	private String state;
 	private Double unit;
-	private Double volumn;
+	private Double volume;
 	private Double net;
 	
 	public VolEntry(String volNumber, String volName, String county, String state, Double unit, Double volumn,
@@ -17,7 +17,7 @@ public class VolEntry {
 		this.county = county;
 		this.state = state;
 		this.unit = unit;
-		this.volumn = volumn;
+		this.volume = volumn;
 		this.net = net;
 	}
 	public String getVolNumber() {
@@ -51,10 +51,10 @@ public class VolEntry {
 		this.unit = unit;
 	}
 	public Double getVolumn() {
-		return volumn;
+		return volume;
 	}
 	public void setVolumn(Double volumn) {
-		this.volumn = volumn;
+		this.volume = volumn;
 	}
 	public Double getNet() {
 		return net;
