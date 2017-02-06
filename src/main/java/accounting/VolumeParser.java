@@ -1,5 +1,8 @@
 package accounting;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,12 +12,10 @@ public class VolumeParser {
 	public static List<VolEntry> getEntries(String text) {
 		List<VolEntry> entries = new ArrayList<VolEntry>();
 		String[] lines = text.split("\\r?\\n");
-		boolean initFlag = false;
-		for(String line: lines) {
-			
-			VolEntry volEntry;
-			if (line.startsWith("***U")) {
-				volEntry = new VolEntry();
+		for(int i = 0; i < lines.length; i++) {
+			String line = lines[i];
+			if (lines[i].startsWith("***U")) {
+				VolEntry volEntry = new VolEntry();
 				int firstSpace = line.indexOf(" ");
 				int secondSpace = line.indexOf(" ", firstSpace + 1);
 				volEntry.setVolNumber(line.substring(firstSpace + 1, secondSpace));
@@ -25,26 +26,45 @@ public class VolumeParser {
 				volEntry.setCounty(line.substring(firstColon + 1, endCounty));
 				int secondColon = line.indexOf(":", endCounty);
 				volEntry.setState(line.substring(secondColon + 1).trim());
-			}
-			if (line.startsWith("W O")) {
-				String[] items = line.trim().split(" +");
-				double net;
-				if (items.length == 6) {
-					if (items[5].endsWith("-")) {
-						net = Double.parseDouble(items[5].substring(0, items[5].indexOf('-'))) * (-1);
-					} else {
-						net = Double.parseDouble(items[5]);
+				i++;
+				if (lines[i].startsWith("W O")) {
+					String[] items = lines[i].trim().split(" +");
+					double net;
+					if (items.length == 6) {
+						if (items[5].endsWith("-")) {
+							net = Double.parseDouble(items[5].substring(0, items[5].indexOf('-'))) * (-1);
+						} else {
+							net = Double.parseDouble(items[5]);
+						}
+						volEntry.setNet(net);
+					} else if (items.length == 8){
+						volEntry.setUnit(Double.parseDouble(items[4]));
+						volEntry.setVolume(Double.parseDouble(items[5]));
+						volEntry.setNet(Double.parseDouble(items[6]));
 					}
-					volEntry.setNet(net);
-				} else if (items.length == 8){
-					volEntry.setUnit(Double.parseDouble(items[4]));
-					volEntry.setVolume(Double.parseDouble(items[5]));
-					volEntry.setNet(Double.parseDouble(items[6]));
 				}
+				entries.add(volEntry);	
 			}
-			entries.add(volEntry);
 		}
 		return entries;
+	}
+	
+	public static void createCSV(List<VolEntry> entries, String csvPath) {
+		try {
+			File file = new File(csvPath);
+			PrintWriter writer = new PrintWriter(file);
+			for (VolEntry entry : entries) {
+				
+				String line = entry.getVolNumber() + "," + entry.getVolName() + "," 
+							+ entry.getState() + "," + entry.getCounty() + "," 
+							+ Double.toString(entry.getUnit()) + "," + Double.toString(entry.getVolume()) + "," + Double.toString(entry.getNet());
+				writer.println(line);
+			}
+			writer.close();
+			
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		} 
 	}
 
 }
