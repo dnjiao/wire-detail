@@ -9,6 +9,10 @@ public class VolEntry {
 	private Double volume;
 	private Double net;
 	
+	
+	public VolEntry() {
+		super();
+	}
 	public VolEntry(String volNumber, String volName, String county, String state, Double unit, Double volumn,
 			Double net) {
 		super();
@@ -50,10 +54,10 @@ public class VolEntry {
 	public void setUnit(Double unit) {
 		this.unit = unit;
 	}
-	public Double getVolumn() {
+	public Double getVolume() {
 		return volume;
 	}
-	public void setVolumn(Double volumn) {
+	public void setVolume(Double volumn) {
 		this.volume = volumn;
 	}
 	public Double getNet() {
