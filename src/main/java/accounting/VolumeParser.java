@@ -49,19 +49,28 @@ public class VolumeParser {
 		return entries;
 	}
 	
-	public static void createCSV(List<VolEntry> entries, String csvPath) {
+	public static void createTSV(List<VolEntry> entries, String csvPath) {
 		try {
 			File file = new File(csvPath);
 			PrintWriter writer = new PrintWriter(file);
-			for (VolEntry entry : entries) {
-				
-				String line = entry.getVolNumber() + "," + entry.getVolName() + "," 
-							+ entry.getState() + "," + entry.getCounty() + "," 
-							+ Double.toString(entry.getUnit()) + "," + Double.toString(entry.getVolume()) + "," + Double.toString(entry.getNet());
+			writer.println("Volume Number\tVolume Name\tState\tCounty\tUnit\tVolume\tNet");
+			for (VolEntry entry : entries) {	
+				String line = entry.getVolNumber() + "\t" + entry.getVolName() + "\t" 
+							+ entry.getState() + "\t" + entry.getCounty() + "\t";
+				if (entry.getUnit() != null) {
+					line += Double.toString(entry.getUnit()) + "\t";
+				} else {
+					line += "\t";
+				}
+				if (entry.getVolume() != null) {
+					line += Double.toString(entry.getVolume()) + "\t";
+				} else {
+					line += "\t";
+				} 
+				line += Double.toString(entry.getNet());
 				writer.println(line);
 			}
 			writer.close();
-			
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		} 

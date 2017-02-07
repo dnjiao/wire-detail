@@ -8,8 +8,8 @@ import org.apache.pdfbox.text.PDFTextStripper;
 
 public class PDFReader {
 	public static void main(String[] args) {
-		String path = "C://Users//Oscar//Desktop//Wire_Detail.pdf";
-		String text = readPDF(path);
+		String pdfPath = "C://Users//Oscar//Desktop//Wire_Detail.pdf";
+		String text = readPDF(pdfPath);
 		System.out.println(text);
 		
 	}
