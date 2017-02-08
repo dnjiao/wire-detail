@@ -1,6 +1,8 @@
 package models;
 
 public class VolEntry {
+	private String month;
+	private String year;
 	private String volNumber;
 	private String volName;
 	private String county;
@@ -13,9 +15,11 @@ public class VolEntry {
 	public VolEntry() {
 		super();
 	}
-	public VolEntry(String volNumber, String volName, String county, String state, Double unit, Double volumn,
+	public VolEntry(String month, String year, String volNumber, String volName, String county, String state, Double unit, Double volumn,
 			Double net) {
 		super();
+		this.month = month;
+		this.year = year;
 		this.volNumber = volNumber;
 		this.volName = volName;
 		this.county = county;
@@ -23,6 +27,20 @@ public class VolEntry {
 		this.unit = unit;
 		this.volume = volumn;
 		this.net = net;
+	}
+	
+	
+	public String getMonth() {
+		return month;
+	}
+	public void setMonth(String month) {
+		this.month = month;
+	}
+	public String getYear() {
+		return year;
+	}
+	public void setYear(String year) {
+		this.year = year;
 	}
 	public String getVolNumber() {
 		return volNumber;
