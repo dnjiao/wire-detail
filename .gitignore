@@ -46,6 +46,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-target/*
-.git/*
-.settings/*
+target/
+.git/
+.settings/
