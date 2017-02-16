@@ -39,13 +39,17 @@ public class VolumeParser {
 					volEntry.setMonth(items[2]);
 					volEntry.setYear(items[3]);
 					double net;
-					if (items.length == 6) {
-						net = strToNum(items[5]);
-						volEntry.setNet(net);
-					} else if (items.length == 8){
-						volEntry.setUnit(strToNum(items[4]));
-						volEntry.setVolume(strToNum(items[5]));
-						volEntry.setNet(strToNum(items[6]));
+					try {
+						if (items.length == 6) {
+							net = strToNum(items[5]);
+							volEntry.setNet(net);
+						} else if (items.length == 8){
+							volEntry.setUnit(strToNum(items[4]));
+							volEntry.setVolume(strToNum(items[5]));
+							volEntry.setNet(strToNum(items[6]));
+						}
+					} catch (NumberFormatException e) {
+						System.out.println(e.getMessage());
 					}
 				}
 				entries.add(volEntry);	
@@ -63,9 +67,7 @@ public class VolumeParser {
 			return Double.parseDouble(str.substring(0, str.indexOf('-'))) * (-1);
 		}
 		return Double.parseDouble(str);
-
 	}
-
 
 	public static void createTsv(List<VolEntry> entries, String csvPath) {
 		try {
