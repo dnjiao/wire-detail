@@ -22,8 +22,9 @@ public class PdfToXls {
 		String text = PDFReader.readPDF(filepath);
 		List<VolEntry> entries = VolumeParser.getEntries(text);
 		String xlsPath = location + File.separator + outFile;
-		System.out.println("Create output file " + xlsPath);
+		System.out.println("Creating output file..");
 		VolumeParser.createXls(entries, xlsPath);
+		System.out.println(xlsPath + " created.");
 	}
 
 }

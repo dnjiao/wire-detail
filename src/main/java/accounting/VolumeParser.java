@@ -34,22 +34,18 @@ public class VolumeParser {
 				int secondColon = line.indexOf(":", endCounty);
 				volEntry.setState(line.substring(secondColon + 1).trim());
 				i++;
-				if (lines[i].startsWith("W O")) {
+				if (lines[i].startsWith("W ")) {
 					String[] items = lines[i].trim().split(" +");
 					volEntry.setMonth(items[2]);
 					volEntry.setYear(items[3]);
 					double net;
 					if (items.length == 6) {
-						if (items[5].endsWith("-")) {
-							net = Double.parseDouble(items[5].substring(0, items[5].indexOf('-'))) * (-1);
-						} else {
-							net = Double.parseDouble(items[5]);
-						}
+						net = strToNum(items[5]);
 						volEntry.setNet(net);
 					} else if (items.length == 8){
-						volEntry.setUnit(Double.parseDouble(items[4]));
-						volEntry.setVolume(Double.parseDouble(items[5]));
-						volEntry.setNet(Double.parseDouble(items[6]));
+						volEntry.setUnit(strToNum(items[4]));
+						volEntry.setVolume(strToNum(items[5]));
+						volEntry.setNet(strToNum(items[6]));
 					}
 				}
 				entries.add(volEntry);	
@@ -58,6 +54,19 @@ public class VolumeParser {
 		return entries;
 	}
 	
+	
+	private static double strToNum(String str) {
+		if (str.charAt(0) == '.') {
+			str = str.substring(1);
+		}
+		if (str.endsWith("-")) {
+			return Double.parseDouble(str.substring(0, str.indexOf('-'))) * (-1);
+		}
+		return Double.parseDouble(str);
+
+	}
+
+
 	public static void createTsv(List<VolEntry> entries, String csvPath) {
 		try {
 			File file = new File(csvPath);
@@ -133,8 +142,10 @@ public class VolumeParser {
 				cell = row.createCell(7);
 				cell.setCellValue(entry.getVolume());
 			} 
-			cell = row.createCell(8);
-			cell.setCellValue(entry.getNet());
+			if (entry.getNet() != null) {
+				cell = row.createCell(8);
+				cell.setCellValue(entry.getNet());
+			}
 			FileOutputStream out;
 			try {
 				out = new FileOutputStream(xlsPath);
